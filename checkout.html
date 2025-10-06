@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Craftcycle - Checkout</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&family=Outfit:wght@100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <section class="nav-container">
+        <h1 class="primary-text">CRAFTCYCLE</h1>
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="cart.html"><i class="fi fi-rr-shopping-cart"></i></a>
+      </section>
+    </nav>
+
+    <header class="catalog-header">
+      <h1 class="primary-text">Checkout</h1>
+      <p>Please fill out your shipping and payment details.</p>
+    </header>
+
+    <main>
+      <section class="main-container">
+        <div class="cart-layout">
+
+          <div class="checkout-form-container">
+            <form class="checkout-form">
+              <h3>Shipping Information</h3>
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" id="address" class="form-input" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label for="postal">Postal Code</label>
+                  <input type="text" id="postal" class="form-input" required>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 30px;">Payment Method</h3>
+              <div class="payment-options">
+                <div class="radio-option">
+                    <input type="radio" id="credit" name="payment" value="credit" checked>
+                    <label for="credit">Credit Card</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="bank" name="payment" value="bank">
+                    <label for="bank">Bank Transfer</label>
+                </div>
+                 <div class="radio-option">
+                    <input type="radio" id="ewallet" name="payment" value="ewallet">
+                    <label for="ewallet">E-Wallet</label>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="cart-summary">
+            <h3>Your Order</h3>
+            <div class="summary-row">
+              <p>Bottle Cap Pin Kit (x1)</p>
+              <p>Rp 7.000</p>
+            </div>
+             <div class="summary-row">
+              <p>Mirror Charm Kit (x2)</p>
+              <p>Rp 14.000</p>
+            </div>
+            <div class="summary-row">
+              <p>Shipping</p>
+              <p>Rp 5.000</p>
+            </div>
+            <div class="total-row">
+              <p>Total</p>
+              <p>Rp 26.000</p>
+            </div>
+            <a href="#" class="header-shop-button" style="width: 100%; margin-top: 20px; box-sizing: border-box;">Place Order</a>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <section class="footer-container">
+        <h1 class="primary-text">CRAFTCYCLE</h1>
+        <p class="footer-slogan">Transforming waste into wonders.</p>
+        <div class="footer-icons">
+          <a href="#"><i class="fi fi-rr-comment-alt"></i></a>
+          <a href="#"><i class="fi fi-rr-envelope"></i></a>
+          <a href="#"><i class="fi fi-rr-paper-plane"></i></a>
+        </div>
+        <p class="footer-copyright-text">
+          &copy; 2025 Craft Cycle. All Rights Reserved.
+        </p>
+      </section>
+    </footer>
+  </body>
+</html>
