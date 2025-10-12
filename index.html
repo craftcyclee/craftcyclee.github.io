@@ -14,7 +14,14 @@
   </head>
   <body>
 
-    <?php include "components/header.php";?>
+  <nav>
+    <section class="nav-container p-4">
+    <h1 class="primary-text">CRAFT CYCLE</h1>
+    <a href="index.html" class="active">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="tutorial.html">Tutorial</a>
+    </section>
+  </nav>
 
     <header>
       <section class="header-container">
@@ -57,62 +64,75 @@
           <a href="catalog.html" class="view-all-button">View All Kits</a>
         </section>
         
-        <section class="main-featured">
-        <?php
-        // Include DB helper and fetch up to 3 featured product
-        require_once __DIR__ . '/components/db.php';
-        $product = [];
-        try {
-            $product = fetchProducts(3);
-        } catch (Exception $e) {
-            // If something goes wrong, leave $products empty and show fallbacks
-            error_log('Error fetching products: ' . $e->getMessage());
-            $product = [];
-        }
-
-        if (!empty($product)):
-            foreach ($product as $p):
-                // Normalize fields and provide defaults
-                $img = !empty($p['image']) ? htmlspecialchars($p['image']) : 'image/pin.png';
-                $name = !empty($p['name']) ? htmlspecialchars($p['name']) : 'Unnamed product';
-                $price = isset($p['price']) ? number_format((float)$p['price'], 0, ',', '.') : '0';
-        ?>
-          <div class="main-product-card">
-            <img src="<?= $img ?>" class="main-product-card-image" />
-            <div class="main-product-text"> 
-              <p class="main-product-card-title"><?= $name ?></p>
-              <p class="main-product-card-price">Rp <?= $price ?></p>
-            </div>
-          </div>
-        <?php
-            endforeach;
-        else:
-        ?>
-          <!-- <div class="main-product-card">
-            <img src="image/pin.png" class="main-product-card-image" />
-            <div class="main-product-text"> 
-              <p class="main-product-card-title">Bottle Cap Pin Kit</p>
-              <p class="main-product-card-price">Rp 7.000</p>
-            </div>
-          </div>
-
-          <div class="main-product-card">
-            <img src="image/mirror.png" class="main-product-card-image" />
-            <div class="main-product-text"> 
-              <p class="main-product-card-title">Mirror Charm Kit</p>
-              <p class="main-product-card-price">Rp 7.000</p>
-            </div>
-          </div>
-
-          <div class="main-product-card">
-            <img src="image/cherry.png" class="main-product-card-image" />
-            <div class="main-product-text"> 
-              <p class="main-product-card-title">Baby Cherry Kit</p>
-              <p class="main-product-card-price">Rp 7.000</p>
-            </div>
-          </div> -->
-        <?php endif; ?>
+        <section class="main-featured" id="featured-products">
+          <!-- Featured products will be injected here -->
+          <div id="featured-loading">Loading featured…</div>
         </section>
+
+        <script>
+          (function() {
+            // Small helper: format price as "Rp 7.000"
+            function formatPrice(num) {
+              try {
+                const value = Math.round(Number(num));
+                const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(value);
+                return 'Rp ' + formatted;
+              } catch (e) {
+                return String(num);
+              }
+            }
+
+            async function fetchProducts(url) {
+              const res = await fetch(url, { cache: 'no-cache' });
+              if (!res.ok) throw new Error('Failed to fetch');
+              return res.json();
+            }
+
+            async function renderFeatured() {
+              const container = document.getElementById('featured-products');
+              if (!container) return;
+              container.innerHTML = '<div id="featured-loading">Loading featured…</div>';
+              try {
+                const products = await fetchProducts('data/product.json');
+                if (!Array.isArray(products)) {
+                  container.innerHTML = '<p class="no-featured">No featured products!</p>';
+                  return;
+                }
+
+                const featured = products
+                  .filter(p => Number(p.featured) === 1)
+                  .sort((a, b) => Number(b.id) - Number(a.id))
+                  .slice(0, 3);
+
+                if (featured.length === 0) {
+                  container.innerHTML = '<p class="no-featured">No featured products!</p>';
+                  return;
+                }
+
+                const html = featured.map(p => {
+                  const price = formatPrice(p.price);
+                  const img = p.img_data || 'https://placehold.co/400x200/cccccc/333333?text=Image+Missing';
+                  return `
+                    <div class="main-product-card">
+                      <img src="${img}" class="main-product-card-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Missing'" />
+                      <div class="main-product-text">
+                        <p class="main-product-card-title">${p.name}</p>
+                        <p class="main-product-card-price">${price}</p>
+                      </div>
+                    </div>
+                  `;
+                }).join('');
+
+                container.innerHTML = html;
+              } catch (err) {
+                console.error('Featured load error', err);
+                container.innerHTML = '<p class="no-featured">No featured products!</p>';
+              }
+            }
+
+            document.addEventListener('DOMContentLoaded', renderFeatured);
+          })();
+        </script>
           
         <section class="main-benefits">
           <div class="main-benefits-card">
@@ -161,7 +181,27 @@
       </section>
     </main>
 
-    <?php include "components/footer.php";?>
+    <footer>
+      <section class="footer-container">
+        <h1 class="primary-text">CRAFT CYCLE</h1>
+        <p class="footer-slogan">
+          Transforming waste into wonders.
+        </p>
+        <div class="footer-icons">
+            <a href="https://www.tiktok.com/@craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/6281290153201" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-copyright-text">
+          &copy; 2025 Craft Cycle. All Rights Reserved.
+        </p>
+      </section>
+    </footer>
+
+    <script src="/assets/js/data-api.js"></script>
+    <script>
+
+    </script>
 
   </body>
 </html>

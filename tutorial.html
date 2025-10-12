@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html class="html" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorials - Craft Cycle</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css"/>
+    <link rel="stylesheet" href="style/output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chewy&family=Outfit:wght@100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap"/>
+    <style>
+      /* Small local styles for tutorial cards */
+      .tutorial-card { border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+      .tutorial-title { display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+      .tutorial-body { margin-top: .75rem; display:none; }
+      .tutorial-body.active { display:block; }
+      .video-wrapper { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; }
+      .video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; }
+    </style>
+  </head>
+  <body>
+
+  <nav>
+    <section class="nav-container p-4">
+    <h1 class="primary-text">CRAFT CYCLE</h1>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="tutorial.html" class="active">Tutorial</a>
+    </section>
+  </nav>
+
+    <header class="catalog-header">
+      <h1 class="primary-text">Our Craft Tutorials</h1>
+      <p>
+        We provide step-by-step tutorials to help you create beautiful crafts from out kits! Check out our latest tutorials below.
+      </p>
+    </header>
+
+    <main>
+      <section class="main-container">
+        <section class="catalog-controls top-4">
+          <form class="search-bar" method="get" action="tutorial.php">
+            <input type="text" name="q" placeholder="Search for tutorials..." value="" />
+            <button type="submit"><i class="fi fi-rr-search"></i></button>
+          </form>
+        </section>
+
+        <h1 class="text-4xl">Latest</h1>
+
+        <div id="tutorial-loading">Loading tutorials…</div>
+        <div id="tutorial-list"></div>
+
+      </section>
+    </main>
+
+    <footer>
+      <section class="footer-container">
+        <h1 class="primary-text">CRAFT CYCLE</h1>
+        <p class="footer-slogan">
+          Transforming waste into wonders.
+        </p>
+        <div class="footer-icons">
+            <a href="https://www.tiktok.com/@craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/6281290153201" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-copyright-text">
+          &copy; 2025 Craft Cycle. All Rights Reserved.
+        </p>
+      </section>
+    </footer>
+
+    <script src="/assets/js/data-api.js"></script>
+    <script>
+      
+    </script>
+
+  </body>
+</html>

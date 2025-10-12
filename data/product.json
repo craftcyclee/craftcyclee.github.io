@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Bottle Cap Pin Kit",
+        "price": 7000,
+        "img_data": "image\/pin.png",
+        "featured": 0,
+        "id": 1
+    },
+    {
+        "name": "Mirror Charm Kit",
+        "price": 7000,
+        "img_data": "image\/mirror.png",
+        "featured": 0,
+        "id": 2
+    },
+    {
+        "name": "Baby Cherry Kit",
+        "price": 7000,
+        "img_data": "image\/cherry.png",
+        "featured": 0,
+        "id": 3
+    }
+]

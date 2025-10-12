@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="html" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Craft Cycle - Catalog</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css"/>
+    <link rel="stylesheet" href="style/output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chewy&family=Outfit:wght@100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap"/>
+  </head>
+  <body>
+    
+  <nav>
+    <section class="nav-container p-4">
+    <h1 class="primary-text">CRAFT CYCLE</h1>
+    <a href="index.html">Home</a>
+    <a href="catalog.html" class="active">Catalog</a>
+    <a href="tutorial.html">Tutorial</a>
+    </section>
+  </nav>
+
+    <header class="catalog-header">
+      <h1 class="primary-text">Our Craft Kits</h1>
+      <p>
+        Find your next creative adventure! All kits are designed to be fun for
+        everyone.
+      </p>
+    </header>
+
+    <main>
+      <section class="main-container">
+        <section class="catalog-controls">
+          <form class="search-bar" method="get" action="catalog.html">
+            <input type="text" name="q" placeholder="Search for kits..." value="" />
+            <button type="submit"><i class="fi fi-rr-search"></i></button>
+          </form>
+          <!-- <div class="filter-buttons">
+            <a href="#" class="filter-active">All</a>
+            <a href="#">Pins</a>
+            <a href="#">Charms</a>
+            <a href="#">Keychains</a>
+          </div> -->
+        </section>
+
+        <section class="product-container" id="product-container">
+          <!-- Products will be populated by client-side JS -->
+          <div id="product-loading">Loading products…</div>
+        </section>
+
+        <section class="load-more-container">
+          <a href="#" class="load-more-button">Load More</a>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <section class="footer-container">
+        <h1 class="primary-text">CRAFT CYCLE</h1>
+        <p class="footer-slogan">
+          Transforming waste into wonders.
+        </p>
+        <div class="footer-icons">
+            <a href="https://www.tiktok.com/@craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/craftcyclee" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/6281290153201" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-copyright-text">
+          &copy; 2025 Craft Cycle. All Rights Reserved.
+        </p>
+      </section>
+    </footer>
+
+    <script src="/assets/js/data-api.js"></script>
+    <script>
+      // Small templating + fetch logic inspired by test.html
+      const MAX_RETRIES = 5;
+      const INITIAL_DELAY_MS = 500;
+
+      function populateTemplate(templateString, data) {
+        let result = templateString;
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const placeholder = new RegExp('\\{' + key + '\\}', 'g');
+            result = result.replace(placeholder, String(data[key]));
+          }
+        }
+        return result;
+      }
+
+      function formatPrice(num) {
+        try {
+          // Ensure a number, remove decimals, and format with thousands separator
+          const value = Math.round(Number(num));
+          // Format with dot as thousands separator and no decimals, using id-ID
+          const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(value);
+          // Add space after currency symbol to match "Rp 7.000"
+          return 'Rp ' + formatted;
+        } catch (e) {
+          return String(num);
+        }
+      }
+
+      async function fetchWithRetry(url, retries = MAX_RETRIES, delay = INITIAL_DELAY_MS) {
+        let attempt = 0;
+        while (attempt < retries) {
+          try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
+            const data = await res.json();
+            return data;
+          } catch (err) {
+            attempt++;
+            if (attempt >= retries) throw err;
+            await new Promise(r => setTimeout(r, delay * Math.pow(2, attempt - 1)));
+          }
+        }
+        throw new Error('Failed to fetch after retries');
+      }
+
+      // --- Client-side product store and rendering/search helpers ---
+      let allProducts = [];
+
+      // Template for a single product card. Uses placeholders: {name}, {price}, {img_data}, {id}
+      const productTemplate = `
+        <div class="main-product-card">
+          <img src="{img_data}" class="main-product-card-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Missing'" />
+          <div class="main-product-text"> 
+            <p class="main-product-card-title">{name}</p>
+            <p class="main-product-card-price">{price}</p>
+          </div>
+        </div>
+      `;
+
+      function renderProducts(list) {
+        const container = document.getElementById('product-container');
+        if (!container) return;
+        if (!Array.isArray(list) || list.length === 0) {
+          container.innerHTML = '<p class="no-results">No products found.</p>';
+          return;
+        }
+
+        let finalHtml = '';
+        for (const p of list) {
+          const item = Object.assign({}, p);
+          item.price = formatPrice(item.price);
+          // Ensure img path exists
+          if (!item.img_data) item.img_data = 'https://placehold.co/400x200/cccccc/333333?text=Image+Missing';
+          finalHtml += populateTemplate(productTemplate, item);
+        }
+        container.innerHTML = finalHtml;
+      }
+
+      // Simple debounce helper for live search
+      function debounce(fn, wait) {
+        let t;
+        return function(...args) {
+          clearTimeout(t);
+          t = setTimeout(() => fn.apply(this, args), wait);
+        };
+      }
+
+      async function loadProducts() {
+        const container = document.getElementById('product-container');
+        if (!container) return;
+        container.innerHTML = '<div id="product-loading">Loading products…</div>';
+        try {
+          const products = await fetchWithRetry('data/product.json');
+          if (!Array.isArray(products)) products = [];
+          allProducts = products;
+          renderProducts(allProducts);
+        } catch (err) {
+          console.error('Error loading products:', err);
+          const container = document.getElementById('product-container');
+          if (container) container.innerHTML = '<p class="error">Failed to load products.</p>';
+        }
+      }
+
+      function doSearch(query) {
+        if (!allProducts || allProducts.length === 0) return renderProducts([]);
+        const q = (query || '').trim().toLowerCase();
+        if (!q) return renderProducts(allProducts);
+        const filtered = allProducts.filter(p => (p.name || '').toLowerCase().includes(q));
+        renderProducts(filtered);
+      }
+
+      // Wire the search form: submit prevents default and input filters live
+      function setupSearch() {
+        const form = document.querySelector('.search-bar');
+        if (!form) return;
+        const input = form.querySelector('input[name="q"]');
+        if (!input) return;
+
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          doSearch(input.value);
+        });
+
+        input.addEventListener('input', debounce(e => doSearch(e.target.value), 200));
+      }
+
+      // Kick off when DOM is ready
+      window.addEventListener('DOMContentLoaded', () => {
+        setupSearch();
+        loadProducts();
+      });
+    </script>
+  </body>
+</html>
