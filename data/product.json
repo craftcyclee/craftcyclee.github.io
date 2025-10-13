@@ -1,23 +1,58 @@
 [
     {
-        "name": "Bottle Cap Pin Kit",
-        "price": 7000,
-        "img_data": "image\/pin.png",
+        "name": "Tea Time Bookmark",
+        "price": 10000,
+        "img_data": "image\/teabag.png",
         "featured": 0,
         "id": 1
     },
     {
-        "name": "Mirror Charm Kit",
-        "price": 7000,
-        "img_data": "image\/mirror.png",
+        "name": "Bottle Cap Pin",
+        "price": 5000,
+        "img_data": "image\/pin.png",
         "featured": 0,
         "id": 2
     },
     {
-        "name": "Baby Cherry Kit",
-        "price": 7000,
-        "img_data": "image\/cherry.png",
+        "name": "Flanimals Keychain (7cm)",
+        "price": 20000,
+        "img_data": "image\/keychain.png",
         "featured": 0,
         "id": 3
+    },
+    {
+        "name": "Flanimals Keychain (4cm)",
+        "price": 12000,
+        "img_data": "image\/keychain.png",
+        "featured": 0,
+        "id": 4
+    },
+    {
+        "name": "Mirror Charm",
+        "price": 25000,
+        "img_data": "image\/mirror.png",
+        "featured": 0,
+        "id": 5
+    },
+    {
+        "name": "Cake Charm",
+        "price": 15000,
+        "img_data": "image\/cake.png",
+        "featured": 0,
+        "id": 6
+    },
+    {
+        "name": "Cherry Charm",
+        "price": 5000,
+        "img_data": "image\/cherry.png",
+        "featured": 0,
+        "id": 7
+    },
+    {
+        "name": "Cactus Charm",
+        "price": 10000,
+        "img_data": "image\/cactus.png",
+        "featured": 0,
+        "id": 8
     }
 ]
